@@ -17,7 +17,7 @@
 		"define-supported-replacement-keys": "like ip, local hour, token... ?"
 	},
 	"proxy": {
-		"port": 3128,
+		"port": 3129,
 		"ssl": {
 			"protocol": "TLS",
 			"keystore-file": "",
