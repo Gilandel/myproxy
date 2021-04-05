@@ -24,16 +24,21 @@ public class JsonSchemaValidator {
         case NODE:
             valid &= checksNode(schema, json);
             break;
+            
         case ARRAY:
-
+        	//TODO
+        	valid = false;
             break;
+            
         case REFERENCE:
-
+        	//TODO
+        	valid = false;
             break;
+            
         default:
         }
 
-        return false;
+        return valid;
     }
 
     private static boolean checksNode(final JsonSchemaNode schema, final JsonNode json) {

@@ -16,71 +16,75 @@ import java.util.Locale;
 
 public class Logger {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER;
-    static {
-        DATE_TIME_FORMATTER = new DateTimeFormatterBuilder() //
-                .appendValue(YEAR, 4) //
-                .appendLiteral('/') //
-                .appendValue(MONTH_OF_YEAR, 2) //
-                .appendLiteral('/') //
-                .appendValue(DAY_OF_MONTH, 2) //
-                .appendLiteral(' ') //
-                .appendValue(HOUR_OF_DAY, 2) //
-                .appendLiteral(':') //
-                .appendValue(MINUTE_OF_HOUR, 2) //
-                .optionalStart() //
-                .appendLiteral(':') //
-                .appendValue(SECOND_OF_MINUTE, 2) //
-                .appendLiteral('.') //
-                .appendValue(MILLI_OF_SECOND, 3) //
-                .toFormatter(Locale.getDefault());
-    }
+	private static final DateTimeFormatter DATE_TIME_FORMATTER;
+	static {
+		DATE_TIME_FORMATTER = new DateTimeFormatterBuilder() //
+				.appendValue(YEAR, 4) //
+				.appendLiteral('/') //
+				.appendValue(MONTH_OF_YEAR, 2) //
+				.appendLiteral('/') //
+				.appendValue(DAY_OF_MONTH, 2) //
+				.appendLiteral(' ') //
+				.appendValue(HOUR_OF_DAY, 2) //
+				.appendLiteral(':') //
+				.appendValue(MINUTE_OF_HOUR, 2) //
+				.optionalStart() //
+				.appendLiteral(':') //
+				.appendValue(SECOND_OF_MINUTE, 2) //
+				.appendLiteral('.') //
+				.appendValue(MILLI_OF_SECOND, 3) //
+				.toFormatter(Locale.getDefault());
+	}
 
-    private final String appender;
+	private final String appender;
 
-    public Logger(final Class<?> clazz) {
-        this(clazz.getName());
-    }
+	public Logger(final Class<?> clazz) {
+		this(clazz.getName());
+	}
 
-    public Logger(final String appender) {
-        this.appender = appender;
-    }
+	public Logger(final String appender) {
+		this.appender = appender;
+	}
 
-    public void info(final Object object) {
-        log(null, System.out, String.valueOf(object));
-    }
+	public void info(final Object object) {
+		log(null, System.out, String.valueOf(object));
+	}
 
-    public void info(final String text, final Object... args) {
-        log(null, System.out, text, args);
-    }
+	public void info(final String text, final Object... args) {
+		log(null, System.out, text, args);
+	}
 
-    public void info(final Throwable throwable, final String text, final Object... args) {
-        log(throwable, System.out, text, args);
-    }
+	public void info(final Throwable throwable, final String text, final Object... args) {
+		log(throwable, System.out, text, args);
+	}
 
-    public void error(final Object object) {
-        log(null, System.err, String.valueOf(object));
-    }
+	public void error(final Object object) {
+		log(null, System.err, String.valueOf(object));
+	}
 
-    public void error(final String text, final Object... args) {
-        log(null, System.err, text, args);
-    }
+	public void error(final String text, final Object... args) {
+		log(null, System.err, text, args);
+	}
 
-    public void error(final Throwable throwable, final String text, final Object... args) {
-        log(throwable, System.err, text, args);
-    }
+	public void error(final Throwable throwable, final String text, final Object... args) {
+		log(throwable, System.err, text, args);
+	}
 
-    private void log(final Throwable throwable, final PrintStream stream, final String text, final Object... args) {
-        // args haven't to contain {}
+	private void log(final Throwable throwable, final PrintStream stream, final String text, final Object... args) {
+		// args haven't to contain {}
 
-        stream.println(LocalDateTime.now().format(DATE_TIME_FORMATTER) //
-                .concat(" - ") //
-                .concat(appender) //
-                .concat(" - ") //
-                .concat(args == null || args.length == 0 ? text : StringUtils.inject(text, args)));
+		final StringBuilder builder = new StringBuilder() //
+				.append(LocalDateTime.now().format(DATE_TIME_FORMATTER)) //
+				.append(" - ") //
+				.append(appender) //
+				.append(" - ") //
+				.append(args == null || args.length == 0 ? text : StringUtils.inject(text, args));
 
-        if (throwable != null) {
-            throwable.printStackTrace(stream);
-        }
-    }
+		stream.println(builder.toString());
+		
+		if (throwable != null) {
+			throwable.printStackTrace(stream);
+		}
+
+	}
 }
